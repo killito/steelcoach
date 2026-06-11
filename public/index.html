@@ -1,780 +1,1326 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Steel Coach — Entrena con propósito</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Steel Coach — Plataforma para Personal Trainers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --black:   #0D0D0D;
-    --dark:    #141414;
-    --panel:   #1C1C1C;
-    --steel:   #2B3A4A;
-    --smoke:   #3A3A3A;
-    --off:     #F0EDE8;
-    --muted:   #8A8A8A;
-    --orange:  #E05A1A;
-    --orange2: #F07040;
-  }
+    :root {
+      --black:   #0A0A0A;
+      --iron:    #1E1E1E;
+      --steel:   #8B9BAD;
+      --bone:    #F0EDE8;
+      --red:     #C1372A;
+      --mid:     #3A3A3A;
+    }
 
-  html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--black);
-    color: var(--off);
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+    body {
+      background: var(--black);
+      color: var(--bone);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 48px;
-    background: rgba(13,13,13,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 1.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--off);
-  }
-  .logo span { color: var(--orange); }
-  nav ul { list-style: none; display: flex; gap: 36px; }
-  nav ul a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: color .2s;
-  }
-  nav ul a:hover { color: var(--off); }
-  .nav-cta {
-    background: var(--orange);
-    color: #fff !important;
-    padding: 9px 22px;
-    border-radius: 3px;
-    font-weight: 600 !important;
-    transition: background .2s !important;
-  }
-  .nav-cta:hover { background: var(--orange2) !important; color: #fff !important; }
+    /* ── PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--red);
+      z-index: 1000;
+      transition: width 0.1s linear;
+    }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 120px 48px 80px;
-    gap: 64px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .hero-text { }
-  .eyebrow {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--orange);
-    margin-bottom: 20px;
-    padding: 6px 14px;
-    border: 1px solid rgba(224,90,26,0.35);
-    border-radius: 2px;
-  }
-  h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(3.5rem, 7vw, 6rem);
-    font-weight: 900;
-    line-height: 0.95;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    margin-bottom: 28px;
-  }
-  h1 .accent { color: var(--orange); }
-  .hero-desc {
-    color: var(--muted);
-    font-size: 1.05rem;
-    max-width: 420px;
-    margin-bottom: 40px;
-    line-height: 1.7;
-  }
-  .hero-actions { display: flex; gap: 16px; align-items: center; }
-  .btn-primary {
-    background: var(--orange);
-    color: #fff;
-    padding: 14px 32px;
-    border: none;
-    border-radius: 3px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background .2s, transform .15s;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--orange2); transform: translateY(-1px); }
-  .btn-ghost {
-    color: var(--muted);
-    font-size: 0.875rem;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: color .2s;
-  }
-  .btn-ghost:hover { color: var(--off); }
-  .btn-ghost::before { content: '▶'; font-size: 0.6rem; }
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 3px; left: 0; right: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #1E1E1E;
+    }
 
-  /* HERO WIDGET — Rutina animada */
-  .routine-card {
-    background: var(--panel);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 12px;
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  .routine-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--orange), var(--orange2), transparent);
-  }
-  .rc-header {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    margin-bottom: 24px;
-  }
-  .rc-athlete { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  .rc-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.4rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.04em;
-    margin-top: 2px;
-  }
-  .rc-badge {
-    background: rgba(224,90,26,0.15);
-    border: 1px solid rgba(224,90,26,0.3);
-    color: var(--orange);
-    font-size: 0.68rem; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 2px;
-  }
-  .rc-day {
-    font-size: 0.7rem; color: var(--muted);
-    letter-spacing: 0.12em; text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .exercise-row {
-    display: flex; align-items: center; gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .exercise-row:last-child { border-bottom: none; }
-  .ex-icon {
-    width: 36px; height: 36px;
-    background: var(--steel);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
-  .ex-info { flex: 1; }
-  .ex-name { font-weight: 500; font-size: 0.9rem; }
-  .ex-detail { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
-  .ex-bar-wrap { width: 80px; }
-  .ex-bar-bg {
-    height: 4px; background: var(--smoke); border-radius: 2px; overflow: hidden;
-  }
-  .ex-bar-fill {
-    height: 100%; border-radius: 2px;
-    background: linear-gradient(90deg, var(--orange), var(--orange2));
-    animation: fillBar 2.5s ease-in-out infinite alternate;
-  }
-  @keyframes fillBar {
-    from { width: 20%; }
-    to   { width: 100%; }
-  }
-  .ex-bar-fill.f60 { animation-delay: 0.3s; }
-  .ex-bar-fill.f80 { animation-delay: 0.6s; }
-  .ex-bar-fill.f45 { animation-delay: 0.9s; }
-  .rc-footer {
-    margin-top: 20px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .rc-macro { text-align: center; }
-  .rc-macro-val {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.5rem; font-weight: 800; color: var(--orange);
-  }
-  .rc-macro-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-  .rc-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.08); }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--bone);
+    }
 
-  /* STATS BAR */
-  .stats-bar {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    padding: 40px 48px;
-    display: flex;
-    justify-content: center;
-    gap: 80px;
-  }
-  .stat { text-align: center; }
-  .stat-val {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 3rem; font-weight: 900;
-    color: var(--off); line-height: 1;
-  }
-  .stat-val span { color: var(--orange); }
-  .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; }
+    .nav-logo span { color: var(--red); }
 
-  /* SECTION GENERIC */
-  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
-  .section-label {
-    font-size: 0.7rem; font-weight: 600;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 16px;
-  }
-  h2 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(2.4rem, 5vw, 3.8rem);
-    font-weight: 900; text-transform: uppercase;
-    line-height: 1; letter-spacing: -0.01em;
-    margin-bottom: 20px;
-  }
-  .section-desc {
-    color: var(--muted); font-size: 1rem; max-width: 480px; line-height: 1.7;
-    margin-bottom: 56px;
-  }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 36px;
+    }
 
-  /* FEATURES */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .feature {
-    background: var(--dark);
-    padding: 36px 32px;
-    transition: background .2s;
-  }
-  .feature:hover { background: var(--panel); }
-  .feature-icon {
-    width: 48px; height: 48px;
-    background: rgba(224,90,26,0.12);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem;
-    margin-bottom: 20px;
-  }
-  .feature h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.3rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.04em;
-    margin-bottom: 10px;
-  }
-  .feature p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+    nav ul li a {
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--steel);
+      transition: color 0.2s;
+    }
 
-  /* HOW IT WORKS */
-  .how-wrap {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
-  }
-  .steps { display: flex; flex-direction: column; gap: 0; }
-  .step {
-    display: flex; gap: 24px; padding: 28px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    cursor: default;
-  }
-  .step:last-child { border-bottom: none; }
-  .step-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 2.8rem; font-weight: 900;
-    color: rgba(255,255,255,0.08);
-    line-height: 1;
-    flex-shrink: 0;
-    width: 52px;
-    transition: color .2s;
-  }
-  .step:hover .step-num { color: var(--orange); }
-  .step-content { }
-  .step-content h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.2rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.05em;
-    margin-bottom: 6px;
-  }
-  .step-content p { color: var(--muted); font-size: 0.875rem; line-height: 1.65; }
+    nav ul li a:hover { color: var(--bone); }
 
-  /* NUTRITION CARD demo */
-  .nutrition-demo {
-    background: var(--panel);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 12px;
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  .nutrition-demo::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, #2B3A4A, var(--orange));
-  }
-  .nd-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.1rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    margin-bottom: 4px;
-  }
-  .nd-sub { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
-  .macro-ring-wrap {
-    display: flex; align-items: center; gap: 28px; margin-bottom: 24px;
-  }
-  .ring-svg { width: 100px; height: 100px; flex-shrink: 0; }
-  .macro-list { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-  .macro-item { display: flex; align-items: center; gap: 10px; }
-  .macro-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .macro-item-label { font-size: 0.8rem; color: var(--muted); flex: 1; }
-  .macro-item-val { font-size: 0.85rem; font-weight: 600; }
-  .meal-list { display: flex; flex-direction: column; gap: 10px; }
-  .meal-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 14px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 6px;
-  }
-  .meal-row-name { font-size: 0.85rem; }
-  .meal-row-cal { font-size: 0.8rem; color: var(--orange); font-weight: 600; }
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 80px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
 
-  /* TESTIMONIAL */
-  .testimonials {
-    background: var(--dark);
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    padding: 100px 48px;
-  }
-  .testimonials-inner { max-width: 1200px; margin: 0 auto; }
-  .testi-grid {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
-    margin-top: 56px;
-  }
-  .testi-card {
-    background: var(--panel);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-    padding: 28px;
-  }
-  .stars { color: var(--orange); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 14px; }
-  .testi-quote { font-size: 0.9rem; color: var(--off); line-height: 1.7; margin-bottom: 20px; font-style: italic; opacity: .85; }
-  .testi-person { display: flex; align-items: center; gap: 12px; }
-  .testi-avatar {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: var(--steel);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.85rem; font-weight: 700;
-    color: var(--off);
-  }
-  .testi-name { font-size: 0.85rem; font-weight: 600; }
-  .testi-role { font-size: 0.72rem; color: var(--muted); }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(193,55,42,0.12) 0%, transparent 70%),
+        linear-gradient(160deg, #0A0A0A 40%, #1a1008 100%);
+    }
 
-  /* PRICING */
-  .pricing-grid {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
-  }
-  .price-card {
-    background: var(--panel);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 12px;
-    padding: 32px;
-    position: relative;
-  }
-  .price-card.featured {
-    border-color: var(--orange);
-    background: rgba(224,90,26,0.07);
-  }
-  .price-badge {
-    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--orange); color: #fff;
-    font-size: 0.65rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 4px 14px; border-radius: 10px;
-  }
-  .price-tier {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.2rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    margin-bottom: 16px;
-  }
-  .price-amount {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 3.2rem; font-weight: 900; line-height: 1;
-    margin-bottom: 6px;
-  }
-  .price-amount sup { font-size: 1.4rem; vertical-align: super; }
-  .price-period { font-size: 0.8rem; color: var(--muted); margin-bottom: 28px; }
-  .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
-  .price-features li { font-size: 0.875rem; color: var(--muted); display: flex; align-items: center; gap: 10px; }
-  .price-features li::before { content: '✓'; color: var(--orange); font-weight: 700; }
-  .price-features li.off { opacity: .35; }
-  .price-features li.off::before { content: '×'; color: var(--muted); }
-  .btn-outline {
-    display: block; text-align: center;
-    padding: 13px;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 4px;
-    color: var(--off);
-    text-decoration: none;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    transition: border-color .2s, background .2s;
-  }
-  .btn-outline:hover { border-color: var(--orange); background: rgba(224,90,26,0.08); }
-  .btn-full {
-    display: block; text-align: center;
-    padding: 13px;
-    background: var(--orange);
-    border-radius: 4px;
-    color: #fff;
-    text-decoration: none;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    transition: background .2s;
-  }
-  .btn-full:hover { background: var(--orange2); }
+    .hero-grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.025) 60px);
+    }
 
-  /* CTA */
-  .cta-section {
-    padding: 120px 48px;
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-  .cta-section h2 { margin-bottom: 16px; }
-  .cta-section p { color: var(--muted); margin-bottom: 40px; font-size: 1rem; }
+    .hero-eyebrow {
+      position: relative;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  /* FOOTER */
-  footer {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 40px 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    color: var(--muted); font-size: 0.8rem;
-  }
-  footer a { color: var(--muted); text-decoration: none; }
-  footer a:hover { color: var(--off); }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 2px;
+      background: var(--red);
+    }
 
-  /* RING ANIMATION */
-  .ring-progress {
-    stroke-dasharray: 251;
-    stroke-dashoffset: 251;
-    animation: ringFill 3s ease forwards;
-  }
-  .ring-p { animation-delay: 0.2s; stroke-dashoffset: calc(251 - 251 * 0.40); animation: none; }
-  .ring-c { animation-delay: 0.4s; stroke-dashoffset: calc(251 - 251 * 0.30); animation: none; }
-  .ring-f { animation-delay: 0.6s; stroke-dashoffset: calc(251 - 251 * 0.30); animation: none; }
+    .hero-headline {
+      position: relative;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      max-width: 900px;
+    }
 
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    nav ul { display: none; }
-    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 48px; }
-    .stats-bar { gap: 40px; padding: 40px 24px; flex-wrap: wrap; }
-    section { padding: 72px 24px; }
-    .features-grid { grid-template-columns: 1fr; }
-    .how-wrap { grid-template-columns: 1fr; gap: 48px; }
-    .testi-grid { grid-template-columns: 1fr; }
-    .pricing-grid { grid-template-columns: 1fr; }
-    .testimonials { padding: 72px 24px; }
-    .cta-section { padding: 80px 24px; }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
-  }
-</style>
+    .hero-headline em {
+      font-style: normal;
+      color: var(--steel);
+    }
+
+    .hero-sub {
+      position: relative;
+      margin-top: 32px;
+      max-width: 520px;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.65);
+      line-height: 1.75;
+    }
+
+    .hero-divider {
+      position: relative;
+      margin-top: 52px;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .stat-item { text-align: left; }
+
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--bone);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-top: 4px;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 48px;
+      background: var(--mid);
+    }
+
+    /* ── SECTION SHARED ── */
+    section {
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      max-width: 700px;
+      margin-bottom: 24px;
+    }
+
+    .section-lead {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.6);
+      max-width: 540px;
+      line-height: 1.75;
+    }
+
+    /* ── ABOUT / WHAT IS ── */
+    #about {
+      background: var(--iron);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-visual {
+      aspect-ratio: 4/3;
+      border: 1px solid var(--mid);
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-mockup {
+      width: 85%;
+      height: 85%;
+      background: #141414;
+      border: 1px solid #2e2e2e;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .mockup-top-bar {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2e2e2e;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .dot-r { background: #C1372A; }
+    .dot-y { background: #8B7355; }
+    .dot-g { background: #3A5A3A; }
+
+    .mockup-nav-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-left: auto;
+    }
+
+    .mockup-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mockup-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mockup-card {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 3px;
+      padding: 10px 12px;
+      flex: 1;
+    }
+
+    .mockup-card-title {
+      font-size: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--steel);
+      margin-bottom: 6px;
+    }
+
+    .mockup-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .mockup-bar {
+      height: 5px;
+      background: #2e2e2e;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .mockup-bar-fill {
+      height: 100%;
+      background: var(--red);
+      border-radius: 2px;
+    }
+
+    .mockup-user-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 3px;
+      padding: 8px 12px;
+    }
+
+    .mockup-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--mid);
+    }
+
+    .mockup-user-info { flex: 1; }
+    .mockup-user-name {
+      font-size: 0.5rem;
+      color: var(--bone);
+      font-weight: 600;
+    }
+    .mockup-user-tag {
+      font-size: 0.42rem;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mockup-badge {
+      font-size: 0.4rem;
+      background: rgba(193,55,42,0.2);
+      color: var(--red);
+      padding: 2px 6px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FEATURES ── */
+    #features {
+      background: var(--black);
+    }
+
+    .features-header {
+      margin-bottom: 64px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      border: 1px solid var(--mid);
+    }
+
+    .feature-card {
+      background: var(--iron);
+      padding: 40px 32px;
+      border: 1px solid transparent;
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--red);
+      transition: width 0.3s ease;
+    }
+
+    .feature-card:hover::before { width: 100%; }
+    .feature-card:hover { background: #242424; border-color: var(--mid); }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .feature-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.04em;
+      color: var(--bone);
+      margin-bottom: 12px;
+    }
+
+    .feature-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.55);
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how {
+      background: var(--iron);
+    }
+
+    .how-steps {
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    .how-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--red), var(--mid));
+      z-index: 0;
+    }
+
+    .step {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border: 2px solid var(--red);
+      background: var(--iron);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--red);
+      margin: 0 auto 24px;
+    }
+
+    .step-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+      color: var(--bone);
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.5);
+      line-height: 1.7;
+    }
+
+    /* ── EXERCISE GUIDE ── */
+    #exercises {
+      background: var(--black);
+    }
+
+    .exercises-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-bottom: 64px;
+      align-items: start;
+    }
+
+    .muscle-groups {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .muscle-tag {
+      background: var(--iron);
+      border: 1px solid var(--mid);
+      padding: 16px 14px;
+      text-align: center;
+      cursor: default;
+      transition: background 0.2s;
+    }
+
+    .muscle-tag:hover {
+      background: #2a2a2a;
+    }
+
+    .muscle-tag-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      color: var(--bone);
+      margin-bottom: 4px;
+    }
+
+    .muscle-tag-count {
+      font-size: 0.68rem;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .exercises-features {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ex-feature {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .ex-feature-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .ex-feature-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--bone);
+      margin-bottom: 4px;
+    }
+
+    .ex-feature-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.5);
+      line-height: 1.65;
+    }
+
+    /* ── NUTRITION ── */
+    #nutrition {
+      background: var(--iron);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .nutrition-list {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--mid);
+    }
+
+    .nutrition-item {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--mid);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: background 0.2s;
+    }
+
+    .nutrition-item:last-child { border-bottom: none; }
+    .nutrition-item:hover { background: rgba(193,55,42,0.05); }
+
+    .nutrition-item-icon {
+      font-size: 1.1rem;
+      margin-top: 2px;
+    }
+
+    .nutrition-item-title {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--bone);
+      margin-bottom: 4px;
+    }
+
+    .nutrition-item-desc {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.5);
+      line-height: 1.6;
+    }
+
+    .macro-wheel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .macro-wheel svg { overflow: visible; }
+
+    .macro-legend {
+      display: flex;
+      gap: 24px;
+    }
+
+    .macro-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--steel);
+    }
+
+    .macro-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ── TRACKING ── */
+    #tracking {
+      background: var(--black);
+    }
+
+    .tracking-grid {
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .tracking-card {
+      background: var(--iron);
+      padding: 40px;
+      border: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .tracking-card:hover {
+      border-color: var(--mid);
+    }
+
+    .tracking-card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .tracking-icon {
+      font-size: 1.3rem;
+    }
+
+    .tracking-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.04em;
+    }
+
+    .tracking-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.5);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .tracking-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid var(--mid);
+      color: var(--steel);
+      border-radius: 2px;
+    }
+
+    /* ── FOR WHO ── */
+    #forwho {
+      background: var(--iron);
+      text-align: center;
+    }
+
+    .forwho-header {
+      margin-bottom: 64px;
+    }
+
+    .forwho-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .forwho-card {
+      background: var(--black);
+      border: 1px solid var(--mid);
+      padding: 40px 28px;
+      text-align: left;
+      position: relative;
+    }
+
+    .forwho-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+
+    .forwho-card:hover::after { transform: scaleX(1); }
+
+    .forwho-emoji {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .forwho-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    .forwho-desc {
+      font-size: 0.83rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.55);
+      line-height: 1.7;
+    }
+
+    /* ── CTA ── */
+    #cta {
+      background: var(--black);
+      padding: 120px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(193,55,42,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    #cta .section-title {
+      margin: 0 auto 16px;
+      text-align: center;
+    }
+
+    #cta .section-lead {
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+
+    .cta-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid rgba(193,55,42,0.4);
+      padding: 8px 20px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+    }
+
+    .cta-apps {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bone);
+      color: var(--black);
+      padding: 14px 28px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cta-btn:hover { background: var(--red); color: var(--bone); }
+
+    .cta-btn-outline {
+      background: transparent;
+      color: var(--bone);
+      border: 1px solid var(--mid);
+    }
+
+    .cta-btn-outline:hover { background: var(--mid); color: var(--bone); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--iron);
+      padding: 40px 48px;
+      border-top: 1px solid var(--mid);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      color: var(--bone);
+    }
+
+    .footer-logo span { color: var(--red); }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(240,237,232,0.3);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--steel);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--bone); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav ul { display: none; }
+      section { padding: 72px 24px; }
+      #hero { padding: 0 24px 60px; }
+      #about, #nutrition { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .how-steps { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .how-steps::before { display: none; }
+      .exercises-intro { grid-template-columns: 1fr; gap: 40px; }
+      .tracking-grid { grid-template-columns: 1fr; }
+      .forwho-cards { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
 </head>
 <body>
 
+<div id="progress-bar"></div>
+
 <!-- NAV -->
 <nav>
-  <div class="logo">Steel<span>Coach</span></div>
+  <div class="nav-logo">Steel<span>Coach</span></div>
   <ul>
+    <li><a href="#about">La App</a></li>
     <li><a href="#features">Funciones</a></li>
-    <li><a href="#how">Cómo funciona</a></li>
-    <li><a href="#" class="nav-cta">Empieza gratis</a></li>
+    <li><a href="#exercises">Ejercicios</a></li>
+    <li><a href="#nutrition">Nutrición</a></li>
+    <li><a href="#tracking">Seguimiento</a></li>
+    <li><a href="#forwho">¿Para quién?</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
-<div style="max-width:1200px;margin:0 auto">
-  <div class="hero">
-    <div class="hero-text">
-      <div class="eyebrow">Para personal trainers</div>
-      <h1>Entrena<br>a más.<br><span class="accent">Cobra</span><br>mejor.</h1>
-      <p class="hero-desc">Steel Coach centraliza tus alumnos, sus rutinas de entrenamiento y sus planes de alimentación en un solo lugar. Menos hojas de cálculo, más resultados.</p>
-      <div class="hero-actions">
-        <a href="#" class="btn-primary">Comenzar gratis</a>
-        <a href="#how" class="btn-ghost">Ver cómo funciona</a>
-      </div>
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-eyebrow">Plataforma para Personal Trainers</div>
+  <h1 class="hero-headline">
+    Entrena.<br><em>Diseña.</em><br>Transforma.
+  </h1>
+  <p class="hero-sub">
+    Steel Coach es la herramienta que los entrenadores personales necesitan para gestionar alumnos, crear rutinas de entrenamiento y alimentación, y hacer un seguimiento real del progreso — todo desde un solo lugar.
+  </p>
+  <div class="hero-divider">
+    <div class="stat-item">
+      <div class="stat-number">500+</div>
+      <div class="stat-label">Ejercicios en la guía</div>
     </div>
-
-    <!-- ROUTINE CARD DEMO -->
-    <div class="routine-card">
-      <div class="rc-header">
-        <div>
-          <div class="rc-athlete">Alumno</div>
-          <div class="rc-name">Carlos Mendoza</div>
-        </div>
-        <div class="rc-badge">Semana 4</div>
-      </div>
-      <div class="rc-day">Martes — Empuje</div>
-
-      <div class="exercise-row">
-        <div class="ex-icon">🏋️</div>
-        <div class="ex-info">
-          <div class="ex-name">Press de banca</div>
-          <div class="ex-detail">4 × 8 · 80 kg</div>
-        </div>
-        <div class="ex-bar-wrap">
-          <div class="ex-bar-bg"><div class="ex-bar-fill"></div></div>
-        </div>
-      </div>
-      <div class="exercise-row">
-        <div class="ex-icon">💪</div>
-        <div class="ex-info">
-          <div class="ex-name">Press militar</div>
-          <div class="ex-detail">3 × 10 · 50 kg</div>
-        </div>
-        <div class="ex-bar-wrap">
-          <div class="ex-bar-bg"><div class="ex-bar-fill f60"></div></div>
-        </div>
-      </div>
-      <div class="exercise-row">
-        <div class="ex-icon">🔄</div>
-        <div class="ex-info">
-          <div class="ex-name">Fondos en paralelas</div>
-          <div class="ex-detail">3 × 12 · Peso corporal</div>
-        </div>
-        <div class="ex-bar-wrap">
-          <div class="ex-bar-bg"><div class="ex-bar-fill f80"></div></div>
-        </div>
-      </div>
-      <div class="exercise-row">
-        <div class="ex-icon">🦾</div>
-        <div class="ex-info">
-          <div class="ex-name">Extensiones de tríceps</div>
-          <div class="ex-detail">4 × 15 · 25 kg</div>
-        </div>
-        <div class="ex-bar-wrap">
-          <div class="ex-bar-bg"><div class="ex-bar-fill f45"></div></div>
-        </div>
-      </div>
-
-      <div class="rc-footer">
-        <div class="rc-macro">
-          <div class="rc-macro-val">2800</div>
-          <div class="rc-macro-label">Calorías</div>
-        </div>
-        <div class="rc-divider"></div>
-        <div class="rc-macro">
-          <div class="rc-macro-val">180g</div>
-          <div class="rc-macro-label">Proteína</div>
-        </div>
-        <div class="rc-divider"></div>
-        <div class="rc-macro">
-          <div class="rc-macro-val">87%</div>
-          <div class="rc-macro-label">Adherencia</div>
-        </div>
-      </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">360°</div>
+      <div class="stat-label">Seguimiento del alumno</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">iOS & Android</div>
+      <div class="stat-label">Disponible en ambas plataformas</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stat">
-    <div class="stat-val">+<span>3.200</span></div>
-    <div class="stat-label">Trainers activos</div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="app-mockup">
+      <div class="mockup-top-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="mockup-nav-label">Steel Coach — Dashboard</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-row">
+          <div class="mockup-card">
+            <div class="mockup-card-title">Progreso semanal</div>
+            <div class="mockup-bar-wrap">
+              <div class="mockup-bar"><div class="mockup-bar-fill" style="width:82%"></div></div>
+              <div class="mockup-bar"><div class="mockup-bar-fill" style="width:67%;background:#8B9BAD"></div></div>
+              <div class="mockup-bar"><div class="mockup-bar-fill" style="width:91%"></div></div>
+            </div>
+          </div>
+          <div class="mockup-card">
+            <div class="mockup-card-title">Alumnos activos</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#F0EDE8;margin-top:4px;">14</div>
+            <div style="font-size:0.42rem;color:#C1372A;text-transform:uppercase;letter-spacing:0.1em;">+3 este mes</div>
+          </div>
+        </div>
+        <div class="mockup-user-row">
+          <div class="mockup-avatar"></div>
+          <div class="mockup-user-info">
+            <div class="mockup-user-name">Ana García</div>
+            <div class="mockup-user-tag">Rutina Semana 8 · Fuerza</div>
+          </div>
+          <div class="mockup-badge">Activa</div>
+        </div>
+        <div class="mockup-user-row">
+          <div class="mockup-avatar" style="background:#3A5A4A"></div>
+          <div class="mockup-user-info">
+            <div class="mockup-user-name">Carlos Medina</div>
+            <div class="mockup-user-tag">Plan Nutrición · Volumen</div>
+          </div>
+          <div class="mockup-badge" style="background:rgba(139,155,173,0.15);color:#8B9BAD;">Rev. pendiente</div>
+        </div>
+        <div class="mockup-user-row">
+          <div class="mockup-avatar" style="background:#5A3A3A"></div>
+          <div class="mockup-user-info">
+            <div class="mockup-user-name">Sofía Torres</div>
+            <div class="mockup-user-tag">Rutina Semana 4 · Hipertrofia</div>
+          </div>
+          <div class="mockup-badge">Activa</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="stat">
-    <div class="stat-val"><span>48.000</span>+</div>
-    <div class="stat-label">Alumnos gestionados</div>
+  <div>
+    <div class="section-label">¿Qué es Steel Coach?</div>
+    <h2 class="section-title">Tu centro de control como entrenador</h2>
+    <p class="section-lead">
+      Steel Coach centraliza la gestión completa de tus alumnos. Crea, personaliza y asigna rutinas de entrenamiento y planes de alimentación, y lleva un seguimiento detallado de cada progreso — sin papeles, sin mensajes dispersos, sin perder información.
+    </p>
+    <p class="section-lead" style="margin-top: 16px;">
+      Diseñada específicamente para personal trainers que trabajan con múltiples clientes y necesitan una herramienta profesional, organizada y poderosa.
+    </p>
   </div>
-  <div class="stat">
-    <div class="stat-val"><span>91</span>%</div>
-    <div class="stat-label">Retención de clientes</div>
-  </div>
-  <div class="stat">
-    <div class="stat-val"><span>4.9</span>★</div>
-    <div class="stat-label">Valoración media</div>
-  </div>
-</div>
+</section>
 
 <!-- FEATURES -->
 <section id="features">
-  <div class="section-label">Funcionalidades</div>
-  <h2>Todo lo que<br>necesitas para escalar</h2>
-  <p class="section-desc">Diseñado específicamente para trainers que quieren profesionalizar su negocio sin perder tiempo en tareas administrativas.</p>
+  <div class="features-header">
+    <div class="section-label">Funcionalidades principales</div>
+    <h2 class="section-title">Todo lo que necesitas en un solo lugar</h2>
+  </div>
   <div class="features-grid">
-    <div class="feature">
-      <div class="feature-icon">👥</div>
-      <h3>Gestión de alumnos</h3>
-      <p>Perfil completo de cada alumno: historial de entrenamientos, medidas corporales, objetivos y progreso en el tiempo. Todo en un panel unificado.</p>
+    <div class="feature-card">
+      <span class="feature-icon">👥</span>
+      <div class="feature-title">Gestión de Alumnos</div>
+      <p class="feature-desc">Crea perfiles detallados para cada uno de tus clientes. Registra sus objetivos, nivel de condición física, historial de entrenamientos y notas personales en un solo perfil accesible en todo momento.</p>
     </div>
-    <div class="feature">
-      <div class="feature-icon">📋</div>
-      <h3>Rutinas personalizadas</h3>
-      <p>Crea y asigna rutinas semanales en minutos. Biblioteca de ejercicios con video, sets, reps, descanso y progresión automática de cargas.</p>
+    <div class="feature-card">
+      <span class="feature-icon">🏋️</span>
+      <div class="feature-title">Creación de Rutinas</div>
+      <p class="feature-desc">Diseña rutinas de entrenamiento completamente personalizadas. Define ejercicios, series, repeticiones, tiempos de descanso y progresión de cargas con un editor intuitivo y flexible.</p>
     </div>
-    <div class="feature">
-      <div class="feature-icon">🥗</div>
-      <h3>Planes de alimentación</h3>
-      <p>Genera dietas ajustadas a los macros y objetivos de cada alumno. Controla calorías, proteínas, carbohidratos y grasas con una base de datos de alimentos integrada.</p>
+    <div class="feature-card">
+      <span class="feature-icon">🥗</span>
+      <div class="feature-title">Planes de Alimentación</div>
+      <p class="feature-desc">Genera planes nutricionales adaptados a los objetivos de cada alumno. Controla macronutrientes, calorías y distribución de comidas con herramientas precisas y una base de alimentos extensa.</p>
     </div>
-    <div class="feature">
-      <div class="feature-icon">📊</div>
-      <h3>Seguimiento de progreso</h3>
-      <p>Gráficas de peso, volumen de entrenamiento y adherencia que puedes compartir con tus alumnos para mantenerlos motivados y en ruta.</p>
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <div class="feature-title">Seguimiento en Tiempo Real</div>
+      <p class="feature-desc">Visualiza el progreso de cada alumno con métricas actualizadas: cumplimiento de rutinas, evolución de cargas, adherencia al plan nutricional y cambios en medidas corporales.</p>
     </div>
-    <div class="feature">
-      <div class="feature-icon">📱</div>
-      <h3>App para el alumno</h3>
-      <p>Tus alumnos acceden a su rutina y dieta del día desde su teléfono. Registran sus entrenamientos y tú ves todo en tiempo real.</p>
+    <div class="feature-card">
+      <span class="feature-icon">📚</span>
+      <div class="feature-title">Guía de Ejercicios</div>
+      <p class="feature-desc">Accede a una biblioteca completa con más de 500 ejercicios categorizados por grupo muscular, equipamiento y dificultad. Cada ejercicio incluye descripción técnica, músculos involucrados y variantes.</p>
     </div>
-    <div class="feature">
-      <div class="feature-icon">💬</div>
-      <h3>Mensajería integrada</h3>
-      <p>Chat directo con cada alumno sin salir de la plataforma. Resuelve dudas, envía ajustes de rutina y mantén la motivación alta.</p>
+    <div class="feature-card">
+      <span class="feature-icon">📱</span>
+      <div class="feature-title">App Móvil Nativa</div>
+      <p class="feature-desc">Disponible para iOS y Android. Tus alumnos pueden ver sus rutinas y planes desde la app, mientras tú gestionas todo desde tu dispositivo, en cualquier lugar y momento.</p>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section id="how" style="background:transparent;padding-top:0">
-  <div class="how-wrap">
-    <!-- Nutrition demo -->
-    <div class="nutrition-demo">
-      <div class="nd-title">Plan Nutricional</div>
-      <div class="nd-sub">Laura García · Semana 2 · Déficit calórico</div>
-      <div class="macro-ring-wrap">
-        <svg class="ring-svg" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="40" fill="none" stroke="#1C1C1C" stroke-width="10"/>
-          <circle cx="50" cy="50" r="40" fill="none" stroke="#E05A1A" stroke-width="10"
-            stroke-dasharray="251" stroke-dashoffset="150"
-            stroke-linecap="round" transform="rotate(-90 50 50)"/>
-          <circle cx="50" cy="50" r="40" fill="none" stroke="#2B3A4A" stroke-width="10"
-            stroke-dasharray="251" stroke-dashoffset="175"
-            stroke-linecap="round" transform="rotate(60 50 50)" opacity=".7"/>
-          <text x="50" y="48" text-anchor="middle" fill="#F0EDE8"
-            font-family="Barlow Condensed,sans-serif" font-size="16" font-weight="900">1850</text>
-          <text x="50" y="60" text-anchor="middle" fill="#8A8A8A"
-            font-family="Inter,sans-serif" font-size="7">kcal / día</text>
-        </svg>
-        <div class="macro-list">
-          <div class="macro-item">
-            <div class="macro-dot" style="background:#E05A1A"></div>
-            <div class="macro-item-label">Proteínas</div>
-            <div class="macro-item-val">145g</div>
-          </div>
-          <div class="macro-item">
-            <div class="macro-dot" style="background:#2B3A4A"></div>
-            <div class="macro-item-label">Carbohidratos</div>
-            <div class="macro-item-val">180g</div>
-          </div>
-          <div class="macro-item">
-            <div class="macro-dot" style="background:#3A3A3A"></div>
-            <div class="macro-item-label">Grasas</div>
-            <div class="macro-item-val">58g</div>
-          </div>
+<section id="how">
+  <div class="section-label">Cómo funciona</div>
+  <h2 class="section-title">Simple de usar, poderoso en resultados</h2>
+  <div class="how-steps">
+    <div class="step">
+      <div class="step-number">1</div>
+      <div class="step-title">Crea tu perfil</div>
+      <p class="step-desc">Configura tu perfil como entrenador con tu información, especialidades y estilo de trabajo.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <div class="step-title">Agrega Alumnos</div>
+      <p class="step-desc">Registra a tus clientes, sus objetivos, nivel físico e historial para personalizar cada plan.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <div class="step-title">Diseña Planes</div>
+      <p class="step-desc">Crea rutinas de entrenamiento y planes de alimentación adaptados a cada alumno desde cero o usando plantillas.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">4</div>
+      <div class="step-title">Haz Seguimiento</div>
+      <p class="step-desc">Monitorea el progreso en tiempo real y ajusta los planes según los resultados obtenidos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXERCISE GUIDE -->
+<section id="exercises">
+  <div class="exercises-intro">
+    <div>
+      <div class="section-label">Guía de Ejercicios</div>
+      <h2 class="section-title">Una biblioteca técnica completa</h2>
+      <p class="section-lead">
+        Steel Coach incluye una de las guías de ejercicios más completas del mercado hispanoablante. Más de 500 ejercicios documentados con detalle técnico, diseñada tanto para el entrenador como para el alumno.
+      </p>
+    </div>
+    <div class="exercises-features">
+      <div class="ex-feature">
+        <div class="ex-feature-dot"></div>
+        <div>
+          <div class="ex-feature-title">Descripción técnica detallada</div>
+          <p class="ex-feature-desc">Cada ejercicio incluye explicación de la ejecución paso a paso, músculos primarios y secundarios involucrados, y errores comunes a evitar.</p>
         </div>
       </div>
-      <div class="meal-list">
-        <div class="meal-row">
-          <div class="meal-row-name">🌅 Desayuno — Avena proteica</div>
-          <div class="meal-row-cal">420 kcal</div>
+      <div class="ex-feature">
+        <div class="ex-feature-dot"></div>
+        <div>
+          <div class="ex-feature-title">Filtros avanzados</div>
+          <p class="ex-feature-desc">Busca por grupo muscular, tipo de equipamiento (libre, máquina, peso corporal, bandas), nivel de dificultad o patrón de movimiento.</p>
         </div>
-        <div class="meal-row">
-          <div class="meal-row-name">🥗 Almuerzo — Pollo + arroz</div>
-          <div class="meal-row-cal">650 kcal</div>
+      </div>
+      <div class="ex-feature">
+        <div class="ex-feature-dot"></div>
+        <div>
+          <div class="ex-feature-title">Variantes y progresiones</div>
+          <p class="ex-feature-desc">Cada ejercicio tiene variantes sugeridas para facilitar la progresión del alumno o adaptar el movimiento a diferentes capacidades físicas.</p>
         </div>
-        <div class="meal-row">
-          <div class="meal-row-name">🥜 Merienda — Yogur + nueces</div>
-          <div class="meal-row-cal">280 kcal</div>
-        </div>
-        <div class="meal-row">
-          <div class="meal-row-name">🍳 Cena — Salmón + verduras</div>
-          <div class="meal-row-cal">500 kcal</div>
+      </div>
+      <div class="ex-feature">
+        <div class="ex-feature-dot"></div>
+        <div>
+          <div class="ex-feature-title">Integrada al editor de rutinas</div>
+          <p class="ex-feature-desc">Agrega cualquier ejercicio de la guía directamente a las rutinas de tus alumnos con un solo toque, sin salir del flujo de trabajo.</p>
         </div>
       </div>
     </div>
+  </div>
+  <div class="muscle-groups">
+    <div class="muscle-tag"><div class="muscle-tag-name">Pecho</div><div class="muscle-tag-count">68 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Espalda</div><div class="muscle-tag-count">74 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Hombros</div><div class="muscle-tag-count">52 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Bíceps</div><div class="muscle-tag-count">38 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Tríceps</div><div class="muscle-tag-count">41 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Piernas</div><div class="muscle-tag-count">89 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Glúteos</div><div class="muscle-tag-count">47 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Core</div><div class="muscle-tag-count">55 ejercicios</div></div>
+    <div class="muscle-tag"><div class="muscle-tag-name">Cardio & HIIT</div><div class="muscle-tag-count">36 ejercicios</div></div>
+  </div>
+</section>
 
-    <!-- Steps -->
-    <div>
-      <div class="section-label">Cómo funciona</div>
-      <h2>Simple de usar.<br>Potente por dentro.</h2>
-      <p class="section-desc">En menos de 10 minutos ya tendrás tu primer alumno con rutina y dieta asignada.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <div class="step-content">
-            <h3>Crea tu perfil de trainer</h3>
-            <p>Regístrate, personaliza tu perfil con tu especialidad y sube tu logo. Tu espacio profesional, a tu imagen.</p>
-          </div>
+<!-- NUTRITION -->
+<section id="nutrition">
+  <div>
+    <div class="section-label">Planes de Alimentación</div>
+    <h2 class="section-title">Nutrición que complementa el entrenamiento</h2>
+    <p class="section-lead">
+      Crea planes de alimentación completos y personalizados para cada alumno. Steel Coach te da las herramientas para diseñar dietas orientadas a cualquier objetivo, con control preciso de macros y calorías.
+    </p>
+    <div class="nutrition-list">
+      <div class="nutrition-item">
+        <div class="nutrition-item-icon">🎯</div>
+        <div>
+          <div class="nutrition-item-title">Objetivos configurables</div>
+          <p class="nutrition-item-desc">Define metas calóricas y de macronutrientes según el objetivo del alumno: pérdida de grasa, ganancia muscular, rendimiento o mantenimiento.</p>
         </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <div class="step-content">
-            <h3>Agrega tus alumnos</h3>
-            <p>Invita a tus alumnos por email. Ellos crean su perfil con sus datos corporales, objetivos y disponibilidad.</p>
-          </div>
+      </div>
+      <div class="nutrition-item">
+        <div class="nutrition-item-icon">🔢</div>
+        <div>
+          <div class="nutrition-item-title">Control de macronutrientes</div>
+          <p class="nutrition-item-desc">Ajusta la distribución de proteínas, carbohidratos y grasas con precisión. Visualiza el desglose de cada comida y del día completo en tiempo real.</p>
         </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <div class="step-content">
-            <h3>Diseña rutinas y dietas</h3>
-            <p>Usa el editor de rutinas y el generador de planes nutricionales para crear programas 100% personalizados.</p>
-          </div>
+      </div>
+      <div class="nutrition-item">
+        <div class="nutrition-item-icon">🍽️</div>
+        <div>
+          <div class="nutrition-item-title">Organización por comidas</div>
+          <p class="nutrition-item-desc">Estructura el plan en desayuno, almuerzo, cena y colaciones. Cada comida tiene sus propias metas y puedes agregar notas o indicaciones específicas.</p>
         </div>
-        <div class="step">
-          <div class="step-num">04</div>
-          <div class="step-content">
-            <h3>Monitorea y ajusta</h3>
-            <p>Recibe registros de entrenamiento en tiempo real, analiza el progreso y ajusta los programas con un clic.</p>
-          </div>
+      </div>
+      <div class="nutrition-item">
+        <div class="nutrition-item-icon">📋</div>
+        <div>
+          <div class="nutrition-item-title">Base de alimentos extensa</div>
+          <p class="nutrition-item-desc">Accede a una base de datos de alimentos con información nutricional completa para construir planes precisos sin cálculos manuales.</p>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="macro-wheel">
+    <svg width="260" height="260" viewBox="0 0 260 260">
+      <circle cx="130" cy="130" r="100" fill="none" stroke="#2A2A2A" stroke-width="28"/>
+      <!-- Proteína 40% -->
+      <circle cx="130" cy="130" r="100" fill="none" stroke="#C1372A" stroke-width="28"
+        stroke-dasharray="251.3 376.99" stroke-dashoffset="0" transform="rotate(-90 130 130)"/>
+      <!-- Carbohidratos 40% -->
+      <circle cx="130" cy="130" r="100" fill="none" stroke="#8B9BAD" stroke-width="28"
+        stroke-dasharray="251.3 376.99" stroke-dashoffset="-251.3" transform="rotate(-90 130 130)"/>
+      <!-- Grasas 20% -->
+      <circle cx="130" cy="130" r="100" fill="none" stroke="#3A5A3A" stroke-width="28"
+        stroke-dasharray="125.65 502.65" stroke-dashoffset="-502.65" transform="rotate(-90 130 130)"/>
+      <text x="130" y="122" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="2.2rem" fill="#F0EDE8">40/40</text>
+      <text x="130" y="148" text-anchor="middle" font-family="Inter,sans-serif" font-size="0.65rem" fill="#8B9BAD" letter-spacing="2">/20</text>
+      <text x="130" y="166" text-anchor="middle" font-family="Inter,sans-serif" font-size="0.55rem" fill="#8B9BAD" letter-spacing="2">EJEMPLO DE MACRO</text>
+    </svg>
+    <div class="macro-legend">
+      <div class="macro-item"><div class="macro-dot" style="background:#C1372A"></div>Proteína</div>
+      <div class="macro-item"><div class="macro-dot" style="background:#8B9BAD"></div>Carbos</div>
+      <div class="macro-item"><div class="macro-dot" style="background:#3A5A3A"></div>Grasas</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKING -->
+<section id="tracking">
+  <div class="section-label">Seguimiento</div>
+  <h2 class="section-title">Cada dato cuenta</h2>
+  <p class="section-lead">El progreso real se mide con datos. Steel Coach registra y visualiza la evolución de cada alumno para que puedas tomar decisiones informadas y ajustar los planes en el momento preciso.</p>
+  <div class="tracking-grid">
+    <div class="tracking-card">
+      <div class="tracking-card-header">
+        <span class="tracking-icon">📈</span>
+        <div class="tracking-title">Evolución de Cargas</div>
+      </div>
+      <p class="tracking-desc">Registra el peso utilizado en cada sesión y visualiza la progresión de cargas a lo largo del tiempo por ejercicio, sesión o periodo.</p>
+      <div class="tracking-tags">
+        <span class="tag">Por ejercicio</span>
+        <span class="tag">Historial completo</span>
+        <span class="tag">Gráficas de progresión</span>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div class="tracking-card-header">
+        <span class="tracking-icon">✅</span>
+        <div class="tracking-title">Cumplimiento de Rutinas</div>
+      </div>
+      <p class="tracking-desc">Visualiza qué tan consistente ha sido tu alumno con su entrenamiento. Porcentajes de adherencia semanales, mensuales y por bloque de entrenamiento.</p>
+      <div class="tracking-tags">
+        <span class="tag">Adherencia semanal</span>
+        <span class="tag">Sesiones completadas</span>
+        <span class="tag">Alertas de ausencia</span>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div class="tracking-card-header">
+        <span class="tracking-icon">📏</span>
+        <div class="tracking-title">Medidas Corporales</div>
+      </div>
+      <p class="tracking-desc">Registra y compara medidas corporales a lo largo del tiempo. Peso, porcentaje de grasa, perímetros y fotografías de progreso organizadas cronológicamente.</p>
+      <div class="tracking-tags">
+        <span class="tag">Peso y composición</span>
+        <span class="tag">Perímetros</span>
+        <span class="tag">Fotos de progreso</span>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div class="tracking-card-header">
+        <span class="tracking-icon">🥗</span>
+        <div class="tracking-title">Adherencia Nutricional</div>
+      </div>
+      <p class="tracking-desc">Monitorea qué tan bien está siguiendo el alumno su plan de alimentación. Registro diario de comidas y comparación con los objetivos establecidos.</p>
+      <div class="tracking-tags">
+        <span class="tag">Registro diario</span>
+        <span class="tag">Cumplimiento de macros</span>
+        <span class="tag">Tendencias mensuales</span>
       </div>
     </div>
   </div>
 </section>
 
+<!-- FOR WHO -->
+<section id="forwho">
+  <div class="forwho-header">
+    <div class="section-label" style="justify-content:center;">¿Para quién es?</div>
+    <h2 class="section-title" style="margin:0 auto 16px;text-align:center;">Hecho para entrenadores que van en serio</h2>
+    <p class="section-lead" style="margin:0 auto;text-align:center;">Steel Coach está diseñado para profesionales del fitness que quieren escalar su trabajo sin perder la calidad ni el control sobre cada alumno.</p>
+  </div>
+  <div class="forwho-cards">
+    <div class="forwho-card">
+      <span class="forwho-emoji">🏋️‍♂️</span>
+      <div class="forwho-title">Personal Trainers independientes</div>
+      <p class="forwho-desc">Gestiona todos tus clientes desde una sola plataforma. Organiza planes, haz seguimiento y mantén toda la información de cada alumno al alcance de tu mano, sin importar dónde estés.</p>
+    </div>
+    <div class="forwho-card">
+      <span class="forwho-emoji">🏢</span>
+      <div class="forwho-title">Entrenadores en gimnasios</div>
+      <p class="forwho-desc">Complementa tu trabajo presencial con una herramienta digital profesional. Tus alumnos pueden revisar sus rutinas y planes desde la app, y tú puedes actualizar todo en segundos.</p>
+    </div>
+    <div class="forwho-card">
+      <span class="forwho-emoji">💻</span>
+      <div class="forwho-title">Coaches online</div>
+      <p class="forwho-desc">Trabaja con alumnos de cualquier parte del mundo. Diseña programas completos, haz seguimiento a distancia y mantén una comunicación clara a través de la plataforma.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-badge">Disponible ahora</div>
+  <h2 class="section-title">¿Listo para elevar tu trabajo como entrenador?</h2>
+  <p class="section-lead">Descarga Steel Coach y comienza a gestionar a tus alumnos con la herramienta que tu trabajo merece.</p>
+  <div class="cta-apps">
+    <a href="#" class="cta-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      App Store
+    </a>
+    <a href="#" class="cta-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.2.96.08L13.86 12 4.14.16C3.82.04 3.48.07 3.18.24 2.58.58 2.25 1.24 2.25 2.11v19.78c0 .87.33 1.53.93 1.87zM16.55 15.42l-2.59-2.59 2.14-2.14 3.07 1.68c.87.48.87 1.26 0 1.74l-2.62 1.31zM5.26 1.71L14.3 10.75 11.7 13.35 5.26 1.71zm0 20.58L11.7 10.65l2.6 2.6-9.04 8.04z"/></svg>
+      Google Play
+    </a>
+    <a href="#" class="cta-btn cta-btn-outline">Más información</a>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
-  <div class="logo" style="font-size:1.2rem">Steel<span style="color:var(--orange)">Coach</span></div>
-  <div style="display:flex;gap:32px">
+  <div class="footer-logo">Steel<span>Coach</span></div>
+  <div class="footer-copy">© 2025 Steel Coach. Todos los derechos reservados.</div>
+  <div class="footer-links">
     <a href="#">Privacidad</a>
     <a href="#">Términos</a>
-    <a href="#">Soporte</a>
-    <a href="#">Instagram</a>
+    <a href="#">Contacto</a>
   </div>
-  <div>© 2026 SteelCoach · Todos los derechos reservados</div>
 </footer>
+
+<script>
+  // Progress bar on scroll
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+  });
+</script>
 
 </body>
 </html>
